@@ -11,6 +11,7 @@ Senha VARCHAR(45)
 
 create table Servidor(
 idServidor INT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(50),
 descricao VARCHAR(250)		
 ) AUTO_INCREMENT = 100;
 
@@ -50,28 +51,35 @@ FOREIGN KEY(fkMetrica) REFERENCES Metrica(idMetrica)
 
 
 INSERT INTO Metrica values(null, '%');
-INSERT INTO Servidor values(null, 'servidor das máquinas da estação Vila Prudente');
+INSERT INTO Servidor values(null,'GD3948', 'servidor das máquinas da estação Vila Prudente');
 INSERT INTO Maquina value(null,'primeira máquina',100);
 INSERT INTO Maquina value(null,'Segunda máquina',100);
 INSERT INTO Maquina value(null,'Terceira máquina',100);
+Insert into Funcionario values (null,'cliente@gmail.com', '12345');
+
 
 select * from Registro;
+
 -- Pegar servidor e máquina
 CREATE VIEW servidorRegistro as select idServidor as Servidor, idMaquina as Maquina from Servidor join Maquina on fkServidor = idServidor;
+select * from servidorRegistro;
 
 -- Dados cpu
 CREATE VIEW dadosCpu as select tipo as Categoria, valor as Registro, unidadeMedida as 'Unidade de Medida', horario as 'Horário' from Registro join Metrica 
 	on fkMetrica = idMetrica and tipo = 'cpu' and unidadeMedida = '%';
+select * from dadosCpu;
 
 -- Dados ram
-select tipo as Categoria, unidadeMedida as 'Unidade de Medida' from Registro join Metrica 
+CREATE VIEW dadosRam as select tipo as Categoria, valor as Registro, unidadeMedida as 'Unidade de Medida', horario as 'Horário' from Registro join Metrica 
 	on fkMetrica = idMetrica and tipo = 'ram' and unidadeMedida = '%';
+select * from dadosRam;
     
--- Dados cpu
-select tipo as Categoria, unidadeMedida as 'Unidade de Medida' from Registro join Metrica 
+-- Dados disco
+CREATE VIEW dadosDisco as select tipo as Categoria, valor as Registro, unidadeMedida as 'Unidade de Medida' from Registro join Metrica 
 	on fkMetrica = idMetrica and tipo = 'disco' and unidadeMedida = '%';
-    
+select * from dadosDisco;
+
+-- 
   drop view viewCliente;
- CREATE VIEW viewCliente as select * from servidorRegistro join dadosCpu order by 'Horário';
- 
+ CREATE VIEW viewCliente as select * from servidorRegistro join dadosCpu order by 'Horário'; 
  select * from viewCliente;
