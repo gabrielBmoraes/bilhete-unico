@@ -1,7 +1,8 @@
 import psutil
 import mysql.connector
+import pandas as pd 
 
-cpu_porcent = psutil.cpu_count()
+# cpu_porcent = psutil.cpu_count()
 
 infobd = mysql.connector.connect( 
  host = 'localhost',
@@ -16,8 +17,18 @@ chamarbd.execute("Select * from Registro")
 
 myresult = chamarbd.fetchall() 
 
+print (myresult[0][3])
 
+# mydataset = {
+#   'cars': ["BMW", "Volvo", "Ford"],
+#   'passings': [3, 7, 2], 
+#   'airplanes': ["BMW", "Volvo", "Ford"],
+#   'passings': [3, 7, 2],
+#   'humans': ["BMW", "Volvo", "Ford"],
+#   'passings': [3, 7, 2]
+# }
 
+# myvar = pd.DataFrame(mydataset)
 
-for x in myresult:
-    print (x[0])
+# print(myvar)
+

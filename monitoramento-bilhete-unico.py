@@ -2,6 +2,7 @@ import psutil
 from time import sleep
 import mysql.connector
 from datetime import datetime
+import pandas as pd
 
 infobd = mysql.connector.connect( 
  host = 'localhost',
@@ -13,6 +14,48 @@ infobd = mysql.connector.connect(
 
 chamarbd = infobd.cursor()
 horarioRegistro = datetime.now()
+
+
+def mostrarUso():
+
+    quantidadeTupla = 1
+    while True:
+        
+        chamarbd.execute("Select * from viewCliente")
+        listaUsoMaquina = chamarbd.fetchall()
+
+
+        for x in range(0,quantidadeTupla):
+                
+                mydataset = {
+                    'Servidor': [listaUsoMaquina[x][0]],
+                    'Maquina': [listaUsoMaquina[x][1]],
+                    'CPU': [listaUsoMaquina[x][2]],
+                    'RAM': [listaUsoMaquina[x][3]],
+                    'Disco': [listaUsoMaquina[x][4]],
+                    'Unidade': [listaUsoMaquina[x][5]],
+                    'Horário': [listaUsoMaquina[x][6]]
+                }
+
+                myvar = pd.DataFrame(mydataset)
+                print(myvar)
+
+        print(
+            """
+            Aperte:
+            
+            1 - Ver mais registro
+            2 - continuar com o programa 
+            3 - Sair
+            """
+        )
+
+        escolhaUsuario = int(input())
+
+        if escolhaUsuario == 1:
+            quantidadeTupla = int(input("Informe o número de registro desejável: "))
+
+            
 
 def enviarBancoCpu(registroCpu1, registroCpu2, registroCpu3):
     chamarbd.execute("INSERT INTO Registro values" + 
@@ -50,8 +93,9 @@ def dadosTratamento(cpu1, cpu2, cpu3, mem1, mem2, mem3, disco1, disco2, disco3):
     registroDisco2 = min(100,disco2)
     registroDisco3 = min(100,disco3)
 
+    enviarBancoMem(registroMem1, registroMem2, registroMem3)
+    enviarBancoDisco(registroDisco1, registroDisco2, registroDisco3)
     enviarBancoCpu(registroCpu1, registroCpu2, registroCpu3)
-
 
 
 
@@ -88,13 +132,13 @@ def monitorarMaquina():
 
     if escolhaOpcao == 4:
         capturarDados()
+        mostrarUso()
 
 
 
 validacaoLogin = False
 
-email = input("Email: ")
-senha = input("Senha: ")
+
 
 chamarbd.execute("Select email, senha from Funcionario")
 
@@ -103,6 +147,9 @@ listaUsuario = chamarbd.fetchall()
 
 while validacaoLogin == False:
 
+    email = input("Email: ")
+    senha = input("Senha: ")
+    
     for x in listaUsuario:
         
         if email == (x[0]) and senha == (x[1]):

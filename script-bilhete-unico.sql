@@ -1,4 +1,4 @@
-drop database bilheteUnico;
+-- drop database bilheteUnico;
 create database bilheteUnico;
 
 use bilheteUnico;
@@ -65,7 +65,8 @@ CREATE VIEW servidorRegistro as select idServidor as Servidor, idMaquina as Maqu
 select * from servidorRegistro;
 
 -- Dados cpu
-CREATE VIEW dadosCpu as select tipo as Categoria, valor as Registro, unidadeMedida as 'Unidade de Medida', horario as 'Horário' from Registro join Metrica 
+drop view dadosCpu;
+CREATE VIEW dadosCpu as select tipo as Categoria, valor as Registro, unidadeMedida, horario from Registro join Metrica 
 	on fkMetrica = idMetrica and tipo = 'cpu' and unidadeMedida = '%';
 select * from dadosCpu;
 
@@ -80,6 +81,8 @@ CREATE VIEW dadosDisco as select tipo as Categoria, valor as Registro, unidadeMe
 select * from dadosDisco;
 
 -- 
-  drop view viewCliente;
- CREATE VIEW viewCliente as select * from servidorRegistro join dadosCpu order by 'Horário'; 
- select * from viewCliente;
+drop view viewCliente;
+CREATE VIEW viewCliente as select servidorRegistro.*, dadosCpu.Registro as 'CPU', dadosRam.Registro as 'RAM', dadosDisco.Registro as 'Disco',
+	dadosCpu.unidadeMedida as 'Unidade de Medida', dadosCpu.horario as 'Horário' 
+	from servidorRegistro join dadosCpu join dadosRam join dadosDisco order by 'Horário' and 'Maquina'; 
+select * from viewCliente;
