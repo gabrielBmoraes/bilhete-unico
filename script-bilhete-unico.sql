@@ -1,4 +1,4 @@
- -- drop database bilheteUnico;
+drop database bilheteUnico;
 create database bilheteUnico;
 -- GRANT all privileges on bilheteunico.* to urubu100;
 -- flush privileges;
@@ -67,7 +67,7 @@ CREATE VIEW servidorRegistro as select idServidor as Servidor, idMaquina as Maqu
 select * from servidorRegistro;
 
 -- Dados cpu
-drop view dadosCpu;
+-- drop view dadosCpu;
 CREATE VIEW dadosCpu as select tipo as Categoria, valor as Registro, unidadeMedida, horario from Registro join Metrica 
 	on fkMetrica = idMetrica and tipo = 'cpu' and unidadeMedida = '%' where Registro.fkMaquina = 10;
 select * from dadosCpu;
@@ -75,12 +75,12 @@ select * from dadosCpu;
 -- drop view dadosCpuMaquinaDois;
 CREATE VIEW dadosCpuMaquinaDois as select tipo as Categoria, valor as Registro, unidadeMedida, horario from Registro join Metrica 
 	on fkMetrica = idMetrica and tipo = 'cpu' and unidadeMedida = '%' where Registro.fkMaquina = 11;
-select * from dadosCpuDois;
+select * from dadosCpuMaquinaDois;
 
 -- drop view dadosCpuMaquinaTres;
 CREATE VIEW dadosCpuMaquinaTres as select tipo as Categoria, valor as Registro, unidadeMedida, horario from Registro join Metrica 
 	on fkMetrica = idMetrica and tipo = 'cpu' and unidadeMedida = '%' where Registro.fkMaquina = 12;
-select * from dadosCpuTres;
+select * from dadosCpuMaquinaTres;
 
 -- Dados ram
 CREATE VIEW dadosRam as select tipo as Categoria, valor as Registro, unidadeMedida as 'Unidade de Medida', horario as 'Horário' from Registro join Metrica 

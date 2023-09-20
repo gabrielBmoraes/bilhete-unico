@@ -19,7 +19,7 @@ horarioRegistro = datetime.now()
 
 
 
-def mostrarUso(quantidadeTupla = 1):
+def mostrarUso(quantidadeTupla = 3):
 
     capturarDados()
 
@@ -279,14 +279,36 @@ def monitorarMaquina():
         monitorarMaquina()
 
 
+def situacaoServidor():
+
+    chamarbd.execute("Select * from Servidor")
+    chamarbd.fetchall()
+    
+    print(
+        """
+        Servidor está conectado com o banco !
+
+        Aperte 1 para voltar
+        """)
+    escolhaOpcao = int(input())
+
+    if escolhaOpcao == 1:
+        mostrarServidores()
+    else :
+        situacaoServidor()
+
+
+
+
+
+
 def mostrarServidores():
     print(
         """
         Login Realizado com sucesso!
 
         Estes são os seus servidores disponiveis:
-        1 - SF0820
-
+        1 - BU1109
 
         Para sair, aperte 0
         """
@@ -314,10 +336,14 @@ def menuGeral():
     
     if escolhaOpcao == 0:
         Login()
-    if escolhaOpcao == 2:
+    elif escolhaOpcao == 1:
+        situacaoServidor()
+    elif escolhaOpcao == 2:
         monitorarMaquina()
     elif escolhaOpcao == 3:
         mostrarServidores()
+    else:
+        menuGeral()
 
 
 
