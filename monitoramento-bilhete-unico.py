@@ -213,6 +213,10 @@ def mostrarMaquinaDois(quantidadeTupla = 1):
             quantidadeTupla = int(input("Informe o número de registro desejável: "))
         elif escolhaOpcao == 2:
             mostrarMaquinaDois(quantidadeTupla)
+        elif escolhaOpcao == 3:
+            monitorarMaquina()
+        else: 
+            mostrarMaquinaDois()
 
 
 
@@ -275,6 +279,8 @@ def monitorarMaquina():
         mostrarMaquinaTres()
     elif escolhaOpcao == 4:
         mostrarUso()
+    elif escolhaOpcao == 5:
+        mostrarServidores()
     else:
         monitorarMaquina()
 
