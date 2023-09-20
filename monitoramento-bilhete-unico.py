@@ -16,9 +16,13 @@ chamarbd = infobd.cursor()
 horarioRegistro = datetime.now()
 
 
-def mostrarUso():
+
+
+
+def mostrarUso(quantidadeTupla = 1):
+
     capturarDados()
-    quantidadeTupla = 1
+
     while True:
         
         chamarbd.execute("Select * from viewCliente")
@@ -40,22 +44,21 @@ def mostrarUso():
                 myvar = pd.DataFrame(mydataset)
                 print(myvar)
 
-        print(
-            """
-            Aperte:
-            
-            1 - Ver mais registro
-            2 - continuar com o programa 
-            3 - Sair
-            """
-        )
+        escolhaOpcao = opcaoMenu()
 
-        escolhaUsuario = int(input())
-
-        if escolhaUsuario == 1:
+        if escolhaOpcao == 1:
             quantidadeTupla = int(input("Informe o número de registro desejável: "))
+        elif escolhaOpcao == 2:
+            mostrarUso(quantidadeTupla)
+        elif escolhaOpcao == 3:
+            monitorarMaquina()
+        else:
+            opcaoMenu()
 
             
+
+
+
 
 def enviarBancoCpu(registroCpu1, registroCpu2, registroCpu3):
     chamarbd.execute("INSERT INTO Registro values" + 
@@ -79,6 +82,9 @@ def enviarBancoDisco(registroDisco1, registroDisco2, registroDisco3):
 infobd.commit()
 
 
+
+
+
 def dadosTratamento(cpu1, cpu2, cpu3, mem1, mem2, mem3, disco1, disco2, disco3):
     registroCpu1 = min(100,cpu1)
     registroCpu2 = min(100,cpu2)
@@ -99,6 +105,9 @@ def dadosTratamento(cpu1, cpu2, cpu3, mem1, mem2, mem3, disco1, disco2, disco3):
 
 
 
+
+
+
 def capturarDados():
     cpu1 = psutil.cpu_percent()
     mem1 = psutil.virtual_memory().percent
@@ -111,6 +120,27 @@ def capturarDados():
     disco3 = disco2*3
     
     dadosTratamento(cpu1,cpu2, cpu3, mem1, mem2, mem3, disco1, disco2, disco3)
+
+
+
+
+
+
+def opcaoMenu():
+    print(
+            """
+            Aperte:
+            
+            1 - Ver mais registro
+            2 - continuar com o programa 
+            3 - Voltar
+            """
+        )
+    return int(input())
+
+
+
+
 
 
 def mostrarMaquinaUm(quantidadeTupla = 1):
@@ -136,22 +166,23 @@ def mostrarMaquinaUm(quantidadeTupla = 1):
                 myvar = pd.DataFrame(mydataset)
                 print(myvar)
 
-        print(
-            """
-            Aperte:
-            
-            1 - Ver mais registro
-            2 - continuar com o programa 
-            3 - Sair
-            """
-        )
-
-        escolhaUsuario = int(input())
-
-        if escolhaUsuario == 1:
+        escolhaOpcao = opcaoMenu()
+        
+        if escolhaOpcao == 0:
+            Login()
+        elif escolhaOpcao == 1:
             quantidadeTupla = int(input("Informe o número de registro desejável: "))
-        elif escolhaUsuario == 2:
+        elif escolhaOpcao == 2:
             mostrarMaquinaUm(quantidadeTupla)
+        elif escolhaOpcao == 3:
+            monitorarMaquina()
+        else:
+            opcaoMenu()
+
+
+
+
+
 
 def mostrarMaquinaDois(quantidadeTupla = 1):
      capturarDados()
@@ -176,22 +207,16 @@ def mostrarMaquinaDois(quantidadeTupla = 1):
                 myvar = pd.DataFrame(mydataset)
                 print(myvar)
 
-        print(
-            """
-            Aperte:
-            
-            1 - Ver mais registro
-            2 - continuar com o programa 
-            3 - Sair
-            """
-        )
+        escolhaOpcao = opcaoMenu()
 
-        escolhaUsuario = int(input())
-
-        if escolhaUsuario == 1:
+        if escolhaOpcao == 1:
             quantidadeTupla = int(input("Informe o número de registro desejável: "))
-        elif escolhaUsuario == 2:
+        elif escolhaOpcao == 2:
             mostrarMaquinaDois(quantidadeTupla)
+
+
+
+
 
 def mostrarMaquinaTres(quantidadeTupla = 1):
      capturarDados()
@@ -216,22 +241,18 @@ def mostrarMaquinaTres(quantidadeTupla = 1):
                 myvar = pd.DataFrame(mydataset)
                 print(myvar)
 
-        print(
-            """
-            Aperte:
-            
-            1 - Ver mais registro
-            2 - continuar com o programa 
-            3 - Sair
-            """
-        )
+        escolhaOpcao = opcaoMenu()
 
-        escolhaUsuario = int(input())
-
-        if escolhaUsuario == 1:
+        if escolhaOpcao == 1:
             quantidadeTupla = int(input("Informe o número de registro desejável: "))
-        elif escolhaUsuario == 2:
+        elif escolhaOpcao == 2:
             mostrarMaquinaTres(quantidadeTupla)
+        elif escolhaOpcao == 3:
+            monitorarMaquina()
+        else :
+            opcaoMenu()
+
+
 
 def monitorarMaquina():
     print(
@@ -254,54 +275,79 @@ def monitorarMaquina():
         mostrarMaquinaTres()
     elif escolhaOpcao == 4:
         mostrarUso()
+    else:
+        monitorarMaquina()
 
 
+def mostrarServidores():
+    print(
+        """
+        Login Realizado com sucesso!
 
-validacaoLogin = False
+        Estes são os seus servidores disponiveis:
+        1 - SF0820
 
 
-
-chamarbd.execute("Select email, senha from Funcionario")
-
-listaUsuario = chamarbd.fetchall()
-
-
-while validacaoLogin == False:
-
-    email = input("Email: ")
-    senha = input("Senha: ")
+        Para sair, aperte 0
+        """
+    )
+    escolhaOpcao = int(input("Servidor escolhido: "))
     
-    for x in listaUsuario:
+    if  escolhaOpcao == 0:
+        Login()
+    elif escolhaOpcao == 1:
+        menuGeral()
+
+
+def menuGeral():
+
+    print(
+        """
+        O que deseja fazer?
+        0 - Sair
+        1 - Ver situação do servidor
+        2 - Monitorar máquinas 
+        3 - Voltar
+        """
+    )
+    escolhaOpcao = int(input("Opção escolhida: "))
+    
+    if escolhaOpcao == 0:
+        Login()
+    if escolhaOpcao == 2:
+        monitorarMaquina()
+    elif escolhaOpcao == 3:
+        mostrarServidores()
+
+
+
+def Login():
+
+    validacaoLogin = False
+
+    chamarbd.execute("Select email, senha from Funcionario")
+
+    listaUsuario = chamarbd.fetchall()
+
+    while validacaoLogin == False:
+
+        email = input("Email: ")
+        senha = input("Senha: ")
         
-        if email == (x[0]) and senha == (x[1]):
-            validacaoLogin = True
+        for x in listaUsuario:
+            
+            if email == (x[0]) and senha == (x[1]):
+                validacaoLogin = True
+        
+        if validacaoLogin == False:
+            print("Erro ao realizar o login!")
+
+    mostrarServidores()
     
-    if validacaoLogin == False:
-        print("Erro ao realizar o login!")
 
-print(
-    """
-    Login Realizado com sucesso!
 
-    Estes são os seus servidores disponiveis:
-    1 - SF0820
-    """
-)
 
-escolhaServidor = int(input("Servidor escolhido: "))
 
-print(
-    """
-    O que deseja fazer?
-    1 - Ver situação do servidor
-    2 - Monitorar máquinas 
-    3 - Sair
-    """
-)
-
-escolhaOpcao = int(input("Opção escolhida: "))
-if escolhaOpcao == 2:
-    monitorarMaquina()
 
 
 
