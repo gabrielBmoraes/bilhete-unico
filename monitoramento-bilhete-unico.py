@@ -17,7 +17,7 @@ horarioRegistro = datetime.now()
 
 
 def mostrarUso():
-
+    capturarDados()
     quantidadeTupla = 1
     while True:
         
@@ -113,9 +113,125 @@ def capturarDados():
     dadosTratamento(cpu1,cpu2, cpu3, mem1, mem2, mem3, disco1, disco2, disco3)
 
 
+def mostrarMaquinaUm(quantidadeTupla = 1):
+     capturarDados()
+     while True:
+        
+        chamarbd.execute("Select * from viewClienteMaquinaUm")
+        listaUsoMaquina = chamarbd.fetchall()
 
-def verTodasMaquinas():
-    capturarDados()
+
+        for x in range(0,quantidadeTupla):
+                
+                mydataset = {
+                    'Servidor': [listaUsoMaquina[x][0]],
+                    'Maquina': [listaUsoMaquina[x][1]],
+                    'CPU': [listaUsoMaquina[x][2]],
+                    'RAM': [listaUsoMaquina[x][3]],
+                    'Disco': [listaUsoMaquina[x][4]],
+                    'Unidade': [listaUsoMaquina[x][5]],
+                    'Horário': [listaUsoMaquina[x][6]]
+                }
+
+                myvar = pd.DataFrame(mydataset)
+                print(myvar)
+
+        print(
+            """
+            Aperte:
+            
+            1 - Ver mais registro
+            2 - continuar com o programa 
+            3 - Sair
+            """
+        )
+
+        escolhaUsuario = int(input())
+
+        if escolhaUsuario == 1:
+            quantidadeTupla = int(input("Informe o número de registro desejável: "))
+        elif escolhaUsuario == 2:
+            mostrarMaquinaUm(quantidadeTupla)
+
+def mostrarMaquinaDois(quantidadeTupla = 1):
+     capturarDados()
+     while True:
+        
+        chamarbd.execute("Select * from viewClienteMaquinaDois")
+        listaUsoMaquina = chamarbd.fetchall()
+
+
+        for x in range(0,quantidadeTupla):
+                
+                mydataset = {
+                    'Servidor': [listaUsoMaquina[x][0]],
+                    'Maquina': [listaUsoMaquina[x][1]],
+                    'CPU': [listaUsoMaquina[x][2]],
+                    'RAM': [listaUsoMaquina[x][3]],
+                    'Disco': [listaUsoMaquina[x][4]],
+                    'Unidade': [listaUsoMaquina[x][5]],
+                    'Horário': [listaUsoMaquina[x][6]]
+                }
+
+                myvar = pd.DataFrame(mydataset)
+                print(myvar)
+
+        print(
+            """
+            Aperte:
+            
+            1 - Ver mais registro
+            2 - continuar com o programa 
+            3 - Sair
+            """
+        )
+
+        escolhaUsuario = int(input())
+
+        if escolhaUsuario == 1:
+            quantidadeTupla = int(input("Informe o número de registro desejável: "))
+        elif escolhaUsuario == 2:
+            mostrarMaquinaDois(quantidadeTupla)
+
+def mostrarMaquinaTres(quantidadeTupla = 1):
+     capturarDados()
+     while True:
+        
+        chamarbd.execute("Select * from viewClienteMaquinaTres")
+        listaUsoMaquina = chamarbd.fetchall()
+
+
+        for x in range(0,quantidadeTupla):
+                
+                mydataset = {
+                    'Servidor': [listaUsoMaquina[x][0]],
+                    'Maquina': [listaUsoMaquina[x][1]],
+                    'CPU': [listaUsoMaquina[x][2]],
+                    'RAM': [listaUsoMaquina[x][3]],
+                    'Disco': [listaUsoMaquina[x][4]],
+                    'Unidade': [listaUsoMaquina[x][5]],
+                    'Horário': [listaUsoMaquina[x][6]]
+                }
+
+                myvar = pd.DataFrame(mydataset)
+                print(myvar)
+
+        print(
+            """
+            Aperte:
+            
+            1 - Ver mais registro
+            2 - continuar com o programa 
+            3 - Sair
+            """
+        )
+
+        escolhaUsuario = int(input())
+
+        if escolhaUsuario == 1:
+            quantidadeTupla = int(input("Informe o número de registro desejável: "))
+        elif escolhaUsuario == 2:
+            mostrarMaquinaTres(quantidadeTupla)
 
 def monitorarMaquina():
     print(
@@ -130,8 +246,13 @@ def monitorarMaquina():
     )
     escolhaOpcao = int(input("Opção selecionada: "))
 
-    if escolhaOpcao == 4:
-        capturarDados()
+    if escolhaOpcao == 1:
+        mostrarMaquinaUm()
+    elif escolhaOpcao == 2:
+        mostrarMaquinaDois()
+    elif escolhaOpcao == 3:
+        mostrarMaquinaTres()
+    elif escolhaOpcao == 4:
         mostrarUso()
 
 

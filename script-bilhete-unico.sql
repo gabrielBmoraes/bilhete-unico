@@ -1,5 +1,7 @@
 -- drop database bilheteUnico;
 create database bilheteUnico;
+GRANT all privileges on bilheteunico.* to urubu100;
+flush privileges;
 
 use bilheteUnico;
 
@@ -65,10 +67,20 @@ CREATE VIEW servidorRegistro as select idServidor as Servidor, idMaquina as Maqu
 select * from servidorRegistro;
 
 -- Dados cpu
-drop view dadosCpu;
-CREATE VIEW dadosCpu as select tipo as Categoria, valor as Registro, unidadeMedida, horario from Registro join Metrica 
-	on fkMetrica = idMetrica and tipo = 'cpu' and unidadeMedida = '%';
-select * from dadosCpu;
+drop view dadosCpuMaquinaUm;
+CREATE VIEW dadosCpuMaquinaUm as select tipo as Categoria, valor as Registro, unidadeMedida, horario from Registro join Metrica 
+	on fkMetrica = idMetrica and tipo = 'cpu' and unidadeMedida = '%' where Registro.fkMaquina = 10;
+select * from dadosCpuMaquinaUm;
+
+drop view dadosCpuMaquinaDois;
+CREATE VIEW dadosCpuMaquinaDois as select tipo as Categoria, valor as Registro, unidadeMedida, horario from Registro join Metrica 
+	on fkMetrica = idMetrica and tipo = 'cpu' and unidadeMedida = '%' where Registro.fkMaquina = 11;
+select * from dadosCpuDois;
+
+drop view dadosCpuMaquinaTres;
+CREATE VIEW dadosCpuMaquinaTres as select tipo as Categoria, valor as Registro, unidadeMedida, horario from Registro join Metrica 
+	on fkMetrica = idMetrica and tipo = 'cpu' and unidadeMedida = '%' where Registro.fkMaquina = 12;
+select * from dadosCpuTres;
 
 -- Dados ram
 CREATE VIEW dadosRam as select tipo as Categoria, valor as Registro, unidadeMedida as 'Unidade de Medida', horario as 'Horário' from Registro join Metrica 
@@ -86,3 +98,21 @@ CREATE VIEW viewCliente as select servidorRegistro.*, dadosCpu.Registro as 'CPU'
 	dadosCpu.unidadeMedida as 'Unidade de Medida', dadosCpu.horario as 'Horário' 
 	from servidorRegistro join dadosCpu join dadosRam join dadosDisco order by 'Horário' and 'Maquina'; 
 select * from viewCliente;
+
+drop view viewClienteMaquinaUm;
+CREATE VIEW viewClienteMaquinaUm as select servidorRegistro.*, dadosCpu.Registro as 'CPU', dadosRam.Registro as 'RAM', dadosDisco.Registro as 'Disco',
+	dadosCpu.unidadeMedida as 'Unidade de Medida', dadosCpu.horario as 'Horário' 
+	from servidorRegistro join dadosCpu join dadosRam join dadosDisco where servidorRegistro.maquina = 10 order by dadosCpu.horario desc; 
+select * from viewClienteMaquinaUm;
+
+drop view viewClienteMaquinaDois;
+CREATE VIEW viewClienteMaquinaDois as select servidorRegistro.*, dadosCpu.Registro as 'CPU', dadosRam.Registro as 'RAM', dadosDisco.Registro as 'Disco',
+	dadosCpu.unidadeMedida as 'Unidade de Medida', dadosCpu.horario as 'Horário' 
+	from servidorRegistro join dadosCpu join dadosRam join dadosDisco where servidorRegistro.maquina = 11 order by dadosCpu.horario desc; 
+select * from viewClienteMaquinaDois;
+
+drop view viewClienteMaquinaTres;
+CREATE VIEW viewClienteMaquinaTres as select servidorRegistro.*, dadosCpu.Registro as 'CPU', dadosRam.Registro as 'RAM', dadosDisco.Registro as 'Disco',
+	dadosCpu.unidadeMedida as 'Unidade de Medida', dadosCpu.horario as 'Horário' 
+	from servidorRegistro join dadosCpu join dadosRam join dadosDisco where servidorRegistro.maquina = 12 order by dadosCpu.horario desc; 
+select * from viewClienteMaquinaTres;
