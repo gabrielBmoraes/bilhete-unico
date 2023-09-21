@@ -19,13 +19,51 @@ horarioRegistro = datetime.now()
 
 
 
-def mostrarUso(quantidadeTupla = 3):
+def mostrarUso(quantidadeTupla = 1):
 
     capturarDados()
 
     while True:
         
-        chamarbd.execute("Select * from viewCliente")
+        chamarbd.execute("Select * from viewClienteMaquinaUm")
+        listaUsoMaquina = chamarbd.fetchall()
+
+
+        for x in range(0,quantidadeTupla):
+                
+                mydataset = {
+                    'Servidor': [listaUsoMaquina[x][0]],
+                    'Maquina': [listaUsoMaquina[x][1]],
+                    'CPU': [listaUsoMaquina[x][2]],
+                    'RAM': [listaUsoMaquina[x][3]],
+                    'Disco': [listaUsoMaquina[x][4]],
+                    'Unidade': [listaUsoMaquina[x][5]],
+                    'Horário': [listaUsoMaquina[x][6]]
+                }
+
+                myvar = pd.DataFrame(mydataset)
+                print(myvar)
+
+        chamarbd.execute("Select * from viewClienteMaquinaDois")
+        listaUsoMaquina = chamarbd.fetchall()
+
+
+        for x in range(0,quantidadeTupla):
+                
+                mydataset = {
+                    'Servidor': [listaUsoMaquina[x][0]],
+                    'Maquina': [listaUsoMaquina[x][1]],
+                    'CPU': [listaUsoMaquina[x][2]],
+                    'RAM': [listaUsoMaquina[x][3]],
+                    'Disco': [listaUsoMaquina[x][4]],
+                    'Unidade': [listaUsoMaquina[x][5]],
+                    'Horário': [listaUsoMaquina[x][6]]
+                }
+
+                myvar = pd.DataFrame(mydataset)
+                print(myvar)
+        
+        chamarbd.execute("Select * from viewClienteMaquinaTres")
         listaUsoMaquina = chamarbd.fetchall()
 
 
